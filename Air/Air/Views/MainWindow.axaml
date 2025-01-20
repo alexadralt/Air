@@ -8,13 +8,39 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="Air">
+    
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Dark">
+                    <Bitmap x:Key="ThemeVariantIcon">/Assets/dark-mode.png</Bitmap>
+                    <SolidColorBrush x:Key="BackgroundBrush" Color="{Binding DarkThemeBackgroundColor}"></SolidColorBrush>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Light">
+                    <Bitmap x:Key="ThemeVariantIcon">/Assets/light-mode.png</Bitmap>
+                    <SolidColorBrush x:Key="BackgroundBrush">WhiteSmoke</SolidColorBrush>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
+    
+    <Window.Styles>
+        <Style Selector="Window">
+            <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
+        </Style>
+    </Window.Styles>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <Panel>
+        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                Click="ThemeButton_OnClick">
+            <Image Width="16" Height="16" Source="{DynamicResource ThemeVariantIcon}"/>
+        </Button>
+    </Panel>
 
 </Window>
