@@ -41,6 +41,70 @@
                 Click="ThemeButton_OnClick">
             <Image Width="16" Height="16" Source="{DynamicResource ThemeVariantIcon}"/>
         </Button>
+        
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="25"
+                    x:Name="MainPanel">
+            <StackPanel Spacing="25" Orientation="Horizontal">
+                <Button Click="CreateRoom_OnClick" Content="Create Room" />
+                <Button Click="JoinRoom_OnClick" Content="Join Room"/>
+            </StackPanel>
+
+            <Button HorizontalAlignment="Center"
+                    Content="Audio Settings"
+                    Click="AudioSettings_OnClick"
+                    Command="{Binding LoadAudioDevicesInfo}"/>
+        </StackPanel>
+        
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsVisible="False"
+                    Spacing="25"
+                    x:Name="AudioSettingsPanel">
+            <StackPanel HorizontalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="5">
+                <TextBlock VerticalAlignment="Center">Output Device</TextBlock>
+                <Button Content="{Binding ChosenOutputDeviceName, TargetNullValue=No Devices Found}"
+                        x:Name="OutputDevicesMenu">
+                    <Button.Flyout>
+                        <MenuFlyout ItemsSource="{Binding OutputDevices}">
+                            <MenuFlyout.ItemContainerTheme>
+                                <ControlTheme TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}"
+                                              x:DataType="vm:AudioDeviceItemViewModel">
+                                    <Setter Property="Header" Value="{Binding Header}"/>
+                                    <Setter Property="Command" Value="{Binding Command}"/>
+                                </ControlTheme>
+                            </MenuFlyout.ItemContainerTheme>
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+            </StackPanel>
+            
+            <StackPanel HorizontalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="5">
+                <TextBlock VerticalAlignment="Center">Input Device</TextBlock>
+                <Button Content="{Binding ChosenInputDeviceName, TargetNullValue=No Devices Found}"
+                        x:Name="InputDevicesMenu">
+                    <Button.Flyout>
+                        <MenuFlyout ItemsSource="{Binding InputDevices}">
+                            <MenuFlyout.ItemContainerTheme>
+                                <ControlTheme TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}"
+                                              x:DataType="vm:AudioDeviceItemViewModel">
+                                    <Setter Property="Header" Value="{Binding Header}"/>
+                                    <Setter Property="Command" Value="{Binding Command}"/>
+                                </ControlTheme>
+                            </MenuFlyout.ItemContainerTheme>
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+            </StackPanel>
+            
+            <Button HorizontalAlignment="Center"
+                    Content="Go Back" Click="GoBack_OnClick"/>
+        </StackPanel>
     </Panel>
 
 </Window>
