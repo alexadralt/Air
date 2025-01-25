@@ -66,7 +66,7 @@
                         Orientation="Horizontal"
                         Spacing="5">
                 <TextBlock VerticalAlignment="Center">Output Device</TextBlock>
-                <Button Content="{Binding ChosenOutputDeviceName, TargetNullValue=No Devices Found}"
+                <Button Content="{Binding SelectedOutputDevice.Header, FallbackValue=No Devices Found}"
                         x:Name="OutputDevicesMenu">
                     <Button.Flyout>
                         <MenuFlyout ItemsSource="{Binding OutputDevices}">
@@ -86,7 +86,7 @@
                         Orientation="Horizontal"
                         Spacing="5">
                 <TextBlock VerticalAlignment="Center">Input Device</TextBlock>
-                <Button Content="{Binding ChosenInputDeviceName, TargetNullValue=No Devices Found}"
+                <Button Content="{Binding SelectedInputDevice.Header, FallbackValue=No Devices Found}"
                         x:Name="InputDevicesMenu">
                     <Button.Flyout>
                         <MenuFlyout ItemsSource="{Binding InputDevices}">
@@ -102,8 +102,12 @@
                 </Button>
             </StackPanel>
             
+            <Button HorizontalAlignment="Center" Content="{Binding CheckAudioButtonText}"
+                    Command="{Binding SwitchAudioMonitoring}" />
+            
             <Button HorizontalAlignment="Center"
-                    Content="Go Back" Click="GoBack_OnClick"/>
+                    Content="Go Back" Click="GoBack_OnClick"
+                    Command="{Binding EnsureStopAudioMonitoring}" />
         </StackPanel>
     </Panel>
 
