@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using Air.Connection;
+using Air.Views;
 using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using NAudio.CoreAudioApi;
@@ -13,10 +15,20 @@ namespace Air.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
-    public static Color DarkThemeBackgroundColor => new Color(255, 43, 41, 51);
+    public MainWindowViewModel()
+    {
+        var connectionManager = new CallConnectionManager();
+        JoinRoomPanelVM = new JoinRoomPanelViewModel(connectionManager);
+        CallPanelVM = new CallPanelViewModel(connectionManager);
+    }
+
+    private const string DefaultCheckAudioButtonText = "Check Audio";
+    private const string SecondaryCheckAudioButtonText = "Stop";
     
-    private static readonly string DefaultCheckAudioButtonText = "Check Audio";
-    private static readonly string SecondaryCheckAudioButtonText = "Stop";
+    public static Color DarkThemeBackgroundColor => new Color(255, 43, 41, 51);
+
+    public CallPanelViewModel CallPanelVM { get; }
+    public JoinRoomPanelViewModel JoinRoomPanelVM { get; }
 
     public ObservableCollection<AudioDeviceItemViewModel> OutputDevices { get; } = new();
     public ObservableCollection<AudioDeviceItemViewModel> InputDevices { get; } = new();
@@ -80,7 +92,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
     private void StopMonitoringAudio()
     {
-        // TODO these assertions can fail if we click check audio button very fast, we should to make this button inactive until all threads have stopped
+        // TODO these assertions can fail if we click check audio button very fast, we should make this button inactive until all threads have stopped
         Debug.Assert(_recordingDevice != null);
         _recordingDevice.StopRecording();
         Debug.Assert(_renderDevice != null);

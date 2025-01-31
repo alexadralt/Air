@@ -1,11 +1,6 @@
-using System.Diagnostics;
-using System.Linq;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Styling;
-using NAudio.CoreAudioApi;
-using NAudio.Wave;
 
 namespace Air.Views;
 
@@ -24,14 +19,15 @@ public partial class MainWindow : Window
             : ThemeVariant.Light;
     }
 
-    private void CreateRoom_OnClick(object? sender, RoutedEventArgs e)
+    private void OpenCreateRoomPanel_OnClick(object? sender, RoutedEventArgs e)
     {
         
     }
 
-    private void JoinRoom_OnClick(object? sender, RoutedEventArgs e)
+    private void OpenJoinRoomPanel_OnClick(object? sender, RoutedEventArgs e)
     {
-        
+        JoinRoomPanel.IsVisible = true;
+        MainPanel.IsVisible = false;
     }
 
     private void AudioSettings_OnClick(object? sender, RoutedEventArgs e)
@@ -40,9 +36,27 @@ public partial class MainWindow : Window
         AudioSettingsPanel.IsVisible = true;
     }
 
-    private void GoBack_OnClick(object? sender, RoutedEventArgs e)
+    private void GoBackFromAudioSettings_OnClick(object? sender, RoutedEventArgs e)
     {
         MainPanel.IsVisible = true;
         AudioSettingsPanel.IsVisible = false;
+    }
+
+    private void GoBackFromJoinRoom_OnClick(object? sender, RoutedEventArgs e)
+    {
+        JoinRoomPanel.IsVisible = false;
+        MainPanel.IsVisible = true;
+    }
+
+    private void JoinRoom_OnClick(object? sender, RoutedEventArgs e)
+    {
+        CallPanel.IsVisible = true;
+        JoinRoomPanel.IsVisible = false;
+    }
+
+    private void LeaveCall_OnClick(object? sender, RoutedEventArgs e)
+    {
+        CallPanel.IsVisible = false;
+        JoinRoomPanel.IsVisible = true;
     }
 }

@@ -47,14 +47,60 @@
                     Spacing="25"
                     x:Name="MainPanel">
             <StackPanel Spacing="25" Orientation="Horizontal">
-                <Button Click="CreateRoom_OnClick" Content="Create Room" />
-                <Button Click="JoinRoom_OnClick" Content="Join Room"/>
+                <Button Click="OpenCreateRoomPanel_OnClick" Content="Create Room" />
+                <Button Click="OpenJoinRoomPanel_OnClick" Content="Join Room"/>
             </StackPanel>
 
             <Button HorizontalAlignment="Center"
                     Content="Audio Settings"
                     Click="AudioSettings_OnClick"
                     Command="{Binding LoadAudioDevicesInfo}"/>
+        </StackPanel>
+        
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsVisible="False"
+                    Spacing="25"
+                    x:Name="JoinRoomPanel"
+                    DataContext="{Binding JoinRoomPanelVM}">
+            <StackPanel
+                HorizontalAlignment="Center"
+                Spacing="5"
+                Orientation="Horizontal">
+                <TextBox Text="{Binding NameOfRoomToJoin}"
+                         Width="200" Watermark="Please enter room name"
+                         x:Name="JoinRoomTextBox"/>
+                <Button Content="Join" Click="JoinRoom_OnClick" x:Name="JoinRoomButton"
+                        Command="{Binding JoinCommand}" CommandParameter="{Binding #JoinRoomTextBox.Text}"/>
+            </StackPanel>
+            <Button HorizontalAlignment="Center" Content="Go Back" Click="GoBackFromJoinRoom_OnClick"/>
+        </StackPanel>
+        
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsVisible="False"
+                    Spacing="25"
+                    x:Name="CallPanel"
+                    DataContext="{Binding CallPanelVM}">
+            <ListBox ItemsSource="{Binding ChatMessages}" HorizontalAlignment="Center">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="{Binding Sender}"/>
+                            <Label Content="{Binding Message}"/>
+                            <Label Content="{Binding MessageTime.TimeOfDay}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Center">
+                <TextBox Text="{Binding UserMessage}" Width="200" Watermark="your message"
+                         x:Name="UserMessageTextBox"/>
+                <Button Content="Send" Command="{Binding SendMessageCommand}"
+                        CommandParameter="{Binding #UserMessageTextBox.Text}"/>
+            </StackPanel>
+            <Button HorizontalAlignment="Center" Content="Leave" Click="LeaveCall_OnClick"
+                    Command="{Binding LeaveRoomCommand}"/>
         </StackPanel>
         
         <StackPanel HorizontalAlignment="Center"
@@ -106,7 +152,7 @@
                     Command="{Binding SwitchAudioMonitoring}" />
             
             <Button HorizontalAlignment="Center"
-                    Content="Go Back" Click="GoBack_OnClick"
+                    Content="Go Back" Click="GoBackFromAudioSettings_OnClick"
                     Command="{Binding EnsureStopAudioMonitoring}" />
         </StackPanel>
     </Panel>
