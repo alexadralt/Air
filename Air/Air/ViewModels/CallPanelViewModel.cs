@@ -43,7 +43,6 @@ public partial class CallPanelViewModel : BasePanelViewModel
             await _callConnectionManager.EnsureDisconnectAsync();
         }
         
-        Dispatcher.UIThread.Post(() => ChatMessages.Clear());
         MainWindow.ShowJoinRoomPanelView();
     }
 
