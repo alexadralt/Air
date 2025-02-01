@@ -23,6 +23,8 @@ public partial class JoinRoomPanelViewModel : BasePanelViewModel
         MainWindow.ShowMainPanelView();
     }
 
+    // NOTE: by default, RelayCommand does not allow concurrent executions. Therefore CanExecute() returns false
+    // when join task is still running, what makes "Join" button inactive
     [RelayCommand(CanExecute = nameof(CanJoin))]
     private async Task Join(string roomId)
     {
