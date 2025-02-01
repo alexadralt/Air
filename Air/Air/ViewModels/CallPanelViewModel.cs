@@ -14,21 +14,8 @@ public partial class CallPanelViewModel : BasePanelViewModel
         : base(mainWindowViewModel)
     {
         _callConnectionManager = callConnectionManager;
-
-        _callConnectionManager.RoomJoinEvent += (_, args) =>
-        {
-            Dispatcher.UIThread.Post(() => AddChatMessage(args.User, "joined the room", DateTime.Now));
-        };
-
-        _callConnectionManager.MessageReceiveEvent += (_, args) =>
-        {
-            Dispatcher.UIThread.Post(() => AddChatMessage(args.Sender, args.Message, DateTime.Now));
-        };
-
-        _callConnectionManager.UserLeftRoomEvent += (_, args) =>
-        {
-            Dispatcher.UIThread.Post(() => AddChatMessage(args.User, "left the room", DateTime.Now));
-        };
+        
+        SubscribeToCallEvents();
     }
     
     public ObservableCollection<ChatMessageViewModel> ChatMessages { get; } = new();
@@ -68,5 +55,23 @@ public partial class CallPanelViewModel : BasePanelViewModel
     private void AddChatMessage(string user, string message, DateTime dateTime)
     {
         ChatMessages.Add(new ChatMessageViewModel(user, message, dateTime));
+    }
+
+    private void SubscribeToCallEvents()
+    {
+        _callConnectionManager.RoomJoinEvent += (_, args) =>
+        {
+            Dispatcher.UIThread.Post(() => AddChatMessage(args.User, "joined the room", DateTime.Now));
+        };
+
+        _callConnectionManager.MessageReceiveEvent += (_, args) =>
+        {
+            Dispatcher.UIThread.Post(() => AddChatMessage(args.Sender, args.Message, DateTime.Now));
+        };
+
+        _callConnectionManager.UserLeftRoomEvent += (_, args) =>
+        {
+            Dispatcher.UIThread.Post(() => AddChatMessage(args.User, "left the room", DateTime.Now));
+        };
     }
 }
