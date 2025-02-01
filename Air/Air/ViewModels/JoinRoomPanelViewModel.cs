@@ -6,9 +6,10 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace Air.ViewModels;
 
-public partial class JoinRoomPanelViewModel : ViewModelBase
+public partial class JoinRoomPanelViewModel : BasePanelViewModel
 {
-    public JoinRoomPanelViewModel(CallConnectionManager callConnectionManager)
+    public JoinRoomPanelViewModel(CallConnectionManager callConnectionManager, MainWindowViewModel mainWindowViewModel)
+        : base(mainWindowViewModel)
     {
         _callConnectionManager = callConnectionManager;
     }
@@ -17,11 +18,23 @@ public partial class JoinRoomPanelViewModel : ViewModelBase
 
     private readonly CallConnectionManager _callConnectionManager;
 
+    public void ShowMainPanelView()
+    {
+        MainWindow.ShowMainPanelView();
+    }
+
     [RelayCommand(CanExecute = nameof(CanJoin))]
     private async Task Join(string roomId)
     {
-        await _callConnectionManager.StartConnectionAsync();
-        await _callConnectionManager.JoinRoom(roomId, Guid.NewGuid().ToString()[..5]);
+        try
+        {
+            await _callConnectionManager.JoinRoom(roomId, Guid.NewGuid().ToString()[..5]);
+            MainWindow.ShowCallPanelView();
+        }
+        catch
+        {
+            await _callConnectionManager.EnsureDisconnectAsync();
+        }
     }
 
     private bool CanJoin(string roomId)

@@ -1,0 +1,26 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Air.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Air.Views.JoinRoomPanelView"
+             x:DataType="vm:JoinRoomPanelViewModel">
+    <StackPanel HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="25">
+        <StackPanel
+            HorizontalAlignment="Center"
+            Spacing="5"
+            Orientation="Horizontal">
+            <TextBox Text="{Binding NameOfRoomToJoin}"
+                     Width="200" Watermark="Please enter room name"
+                     x:Name="JoinRoomTextBox"/>
+            <Button Content="Join"
+                    Command="{Binding JoinCommand}"
+                    CommandParameter="{Binding #JoinRoomTextBox.Text}"/>
+        </StackPanel>
+        <Button HorizontalAlignment="Center" Content="Go Back"
+                Command="{Binding ShowMainPanelView}"/>
+    </StackPanel>
+</UserControl>

@@ -39,13 +39,15 @@ public class CallConnectionManager
     
     private readonly HubConnection _connection;
 
-    public async Task StartConnectionAsync()
+    public async Task EnsureDisconnectAsync()
     {
-        await _connection.StartAsync();
+        if (_connection.State is HubConnectionState.Connected or HubConnectionState.Connecting)
+            await _connection.StopAsync();
     }
 
     public async Task JoinRoom(string roomId, string userName)
     {
+        await _connection.StartAsync();
         await _connection.InvokeAsync("JoinRoom", roomId, userName);
     }
 

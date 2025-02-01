@@ -1,0 +1,22 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Air.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Air.Views.MainPanelView"
+             x:DataType="vm:MainPanelViewModel">
+    <StackPanel HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="25"
+                x:Name="MainPanel">
+        <StackPanel Spacing="25" Orientation="Horizontal">
+            <Button Content="Create Room" />
+            <Button Content="Join Room" Command="{Binding ShowJoinRoomPanelView}"/>
+        </StackPanel>
+
+        <Button HorizontalAlignment="Center"
+                Content="Audio Settings"
+                Command="{Binding ShowAudioSettingsPanelView}"/>
+    </StackPanel>
+</UserControl>

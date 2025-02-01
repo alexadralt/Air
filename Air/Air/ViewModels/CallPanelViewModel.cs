@@ -8,9 +8,10 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace Air.ViewModels;
 
-public partial class CallPanelViewModel : ViewModelBase
+public partial class CallPanelViewModel : BasePanelViewModel
 {
-    public CallPanelViewModel(CallConnectionManager callConnectionManager)
+    public CallPanelViewModel(CallConnectionManager callConnectionManager, MainWindowViewModel mainWindowViewModel)
+        : base(mainWindowViewModel)
     {
         _callConnectionManager = callConnectionManager;
 
@@ -46,8 +47,17 @@ public partial class CallPanelViewModel : ViewModelBase
     [RelayCommand]
     private async Task LeaveRoom()
     {
-        await _callConnectionManager.LeaveRoom();
+        try
+        {
+            await _callConnectionManager.LeaveRoom();
+        }
+        catch
+        {
+            await _callConnectionManager.EnsureDisconnectAsync();
+        }
+        
         Dispatcher.UIThread.Post(() => ChatMessages.Clear());
+        MainWindow.ShowJoinRoomPanelView();
     }
 
     private bool IsValidMessage(string message)

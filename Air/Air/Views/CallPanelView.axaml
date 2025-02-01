@@ -1,0 +1,33 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Air.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Air.Views.CallPanelView"
+             x:DataType="vm:CallPanelViewModel">
+    <StackPanel HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="25"
+                x:Name="CallPanel">
+        <ListBox ItemsSource="{Binding ChatMessages}" HorizontalAlignment="Center">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="{Binding Sender}"/>
+                        <Label Content="{Binding Message}"/>
+                        <Label Content="{Binding MessageTime.TimeOfDay}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Center">
+            <TextBox Text="{Binding UserMessage}" Width="200" Watermark="your message"
+                     x:Name="UserMessageTextBox"/>
+            <Button Content="Send" Command="{Binding SendMessageCommand}"
+                    CommandParameter="{Binding #UserMessageTextBox.Text}"/>
+        </StackPanel>
+        <Button HorizontalAlignment="Center" Content="Leave"
+                Command="{Binding LeaveRoomCommand}"/>
+    </StackPanel>
+</UserControl>
