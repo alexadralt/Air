@@ -13,10 +13,15 @@
             HorizontalAlignment="Center"
             Spacing="5"
             Orientation="Horizontal">
-            <TextBox Text="{Binding NameOfRoomToJoin}"
-                     Width="200" Watermark="Please enter room name"
-                     x:Name="JoinRoomTextBox"/>
-            <Button Content="Join"
+            <StackPanel Spacing="5">
+                <TextBox Text="{Binding NameOfRoomToJoin}"
+                         Width="200" Watermark="Please enter room name"
+                         x:Name="JoinRoomTextBox"/>
+                <TextBlock Text="{Binding ErrorMessage}" Foreground="Red"
+                           MaxWidth="200" TextTrimming="{Binding ErrorMessageTrimming}"
+                           ToolTip.Tip="{Binding ErrorMessageToolTip}"/>
+            </StackPanel>
+            <Button Content="Join" VerticalAlignment="Top"
                     Command="{Binding JoinCommand}"
                     CommandParameter="{Binding #JoinRoomTextBox.Text}"/>
         </StackPanel>

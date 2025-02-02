@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
 
@@ -45,10 +46,10 @@ public class CallConnectionManager
             await _connection.StopAsync();
     }
 
-    public async Task JoinRoom(string roomId, string userName)
+    public async Task JoinRoom(string roomId, string userName, CancellationToken ct)
     {
-        await _connection.StartAsync();
-        await _connection.InvokeAsync("JoinRoom", roomId, userName);
+        await _connection.StartAsync(ct);
+        await _connection.InvokeAsync("JoinRoom", roomId, userName, ct);
     }
 
     public async Task LeaveRoom()
