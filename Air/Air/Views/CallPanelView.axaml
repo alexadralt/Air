@@ -22,8 +22,13 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Center">
-            <TextBox Text="{Binding UserMessage}" Width="200" Watermark="your message"
-                     x:Name="UserMessageTextBox"/>
+            <StackPanel>
+                <TextBox Text="{Binding UserMessage}" Width="200" Watermark="your message"
+                         x:Name="UserMessageTextBox"/>
+                <TextBlock Text="{Binding ErrorMessage}" Foreground="Red"
+                           MaxWidth="200" TextTrimming="{Binding ErrorMessageTrimming}"
+                           ToolTip.Tip="{Binding ErrorMessageToolTip}"/>
+            </StackPanel>
             <Button Content="Send" Command="{Binding SendMessageCommand}"
                     CommandParameter="{Binding #UserMessageTextBox.Text}"/>
         </StackPanel>
