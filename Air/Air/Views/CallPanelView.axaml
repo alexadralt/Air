@@ -1,6 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:Air.ViewModels"
+             xmlns:behaviours="using:Air.Behaviours"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -10,28 +11,38 @@
                 VerticalAlignment="Center"
                 Spacing="25"
                 x:Name="CallPanel">
-        <ListBox ItemsSource="{Binding ChatMessages}" HorizontalAlignment="Center">
+        <ListBox ItemsSource="{Binding ChatMessages}" HorizontalAlignment="Center"
+                 Height="200" Width="300">
+            <Interaction.Behaviors>
+                <behaviours:ScrollToEndBehaviour />
+            </Interaction.Behaviors>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="{Binding Sender}"/>
-                        <Label Content="{Binding Message}"/>
-                        <Label Content="{Binding MessageTime.TimeOfDay}"/>
-                    </StackPanel>
+                    <Grid ColumnDefinitions="25*, 50*, 25*">
+                        <TextBlock Grid.Column="0" Text="{Binding Sender}" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Message}" TextWrapping="Wrap"
+                                   MaxWidth="{Binding $parent[Grid].ColumnDefinitions[1].MaxWidth}"/>
+                        <TextBlock Grid.Column="2" Text="{Binding ChatFriendlyTime}" HorizontalAlignment="Center"/>
+                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Center">
-            <StackPanel>
+        
+        <StackPanel HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal" Spacing="5">
                 <TextBox Text="{Binding UserMessage}" Width="200" Watermark="your message"
                          x:Name="UserMessageTextBox"/>
-                <TextBlock Text="{Binding ErrorMessage}" Foreground="Red"
-                           MaxWidth="200" TextTrimming="{Binding ErrorMessageTrimming}"
-                           ToolTip.Tip="{Binding ErrorMessageToolTip}"/>
+                <Button Content="Send" Command="{Binding SendMessageCommand}"
+                        CommandParameter="{Binding #UserMessageTextBox.Text}"
+                        VerticalAlignment="Center"/>
             </StackPanel>
-            <Button Content="Send" Command="{Binding SendMessageCommand}"
-                    CommandParameter="{Binding #UserMessageTextBox.Text}"/>
+            
+            <TextBlock Text="{Binding ErrorMessage}" Foreground="Red"
+                       MaxWidth="200" TextTrimming="{Binding ErrorMessageTrimming}"
+                       ToolTip.Tip="{Binding ErrorMessageToolTip}"
+                       HorizontalAlignment="Left"/>
         </StackPanel>
+        
         <Button HorizontalAlignment="Center" Content="Leave"
                 Command="{Binding LeaveRoomCommand}"/>
     </StackPanel>

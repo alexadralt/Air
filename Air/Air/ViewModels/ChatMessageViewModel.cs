@@ -14,4 +14,6 @@ public class ChatMessageViewModel : ViewModelBase
     public string Sender { get; }
     public string Message { get; }
     public DateTime MessageTime { get; }
+
+    public string ChatFriendlyTime => $"{MessageTime.Hour}:{MessageTime.Minute}";
 }
